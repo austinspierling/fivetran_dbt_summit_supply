@@ -8,5 +8,5 @@ SELECT id                AS contact_id,
        mailingstate      AS mailing_state,
        mailingpostalcode AS mailing_postal_code,
        loyalty_tier__c   AS loyalty_tier
-FROM {{ source('rma_salesforce', 'contact') }}
+FROM {{ source('rma_salesforce', 'CONTACT') }}
 WHERE is_deleted = FALSE
