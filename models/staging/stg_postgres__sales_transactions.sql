@@ -4,4 +4,4 @@ SELECT transaction_id,
        salesforce_contact_id,
        total_amount,
        transaction_time::timestamp AS transaction_time
-FROM {{ source('rma_postgres', 'sales_transactions') }}
+FROM {{ source('rma_postgres', 'SALES_TRANSACTIONS') }}
