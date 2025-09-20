@@ -1,35 +1,26 @@
-{{ config(materialized='table') }}
+-- models/marts/dim_customers.sql
 
-with customer_contacts as (
-    select
-        contact_id,
-        first_name,
-        last_name,
-        email
-    from {{ ref('stg_salesforce__contact') }}
-),
+WITH contacts AS (SELECT *
+                  FROM {{ ref('stg_salesforce__contact') }}),
 
-customer_transactions as (
-    select
-        customer_id,
-        count(*) as total_transactions,
-        sum(amount) as total_amount,
-        min(transaction_date) as first_transaction_date,
-        max(transaction_date) as last_transaction_date
-    from {{ ref('stg_postgres__sales_transactions') }}
-    group by customer_id
-)
+     customer_transactions AS (SELECT salesforce_contact_id,
+                                      COUNT(transaction_id) AS total_transactions,
+                                      SUM(total_amount)     AS lifetime_value,
+                                      MIN(transaction_time) AS first_purchase_date,
+                                      MAX(transaction_time) AS last_purchase_date
+                               FROM {{ ref('stg_postgres__sales_transactions') }}
+                               GROUP BY 1)
 
-select
-    cc.contact_id as customer_id,
-    cc.first_name,
-    cc.last_name,
-    cc.email,
-    coalesce(ct.total_transactions, 0) as total_transactions,
-    coalesce(ct.total_amount, 0) as total_amount,
-    ct.first_transaction_date,
-    ct.last_transaction_date,
-    current_timestamp as _loaded_at
-from customer_contacts cc
-left join customer_transactions ct
-    on cc.contact_id = ct.customer_id
+SELECT c.contact_id,
+       c.full_name,
+       c.email,
+       c.loyalty_tier,
+       c.mailing_city,
+       c.mailing_state,
+       COALESCE(ct.total_transactions, 0) AS total_transactions,
+       COALESCE(ct.lifetime_value, 0)     AS lifetime_value,
+       ct.first_purchase_date,
+       ct.last_purchase_date
+FROM contacts c
+         LEFT JOIN
+     customer_transactions ct ON c.contact_id = ct.salesforce_contact_id
