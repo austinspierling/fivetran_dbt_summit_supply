@@ -1,6 +1,6 @@
 -- models/staging/stg_salesforce__contact.sql
 
-SELECT account_id,
+SELECT id,
        first_name,
        last_name,
        email,
