@@ -11,4 +11,4 @@ SELECT id,
        LOYALTY_TIER_C AS loyalty_tier
 FROM {{ source('rma_salesforce', 'CONTACT') }}
 WHERE is_deleted = FALSE
-AND mailing_state = Colorado
+AND mailing_state = 'Colorado'
