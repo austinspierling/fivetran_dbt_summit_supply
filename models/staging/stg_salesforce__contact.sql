@@ -8,6 +8,6 @@ SELECT account_id,
        mailing_city,
        mailing_state,
        mailing_postal_code,
-       loyalty_tier__c
+       loyalty_tier__c AS loyalty_tier
 FROM {{ source('rma_salesforce', 'CONTACT') }}
 WHERE is_deleted = FALSE
