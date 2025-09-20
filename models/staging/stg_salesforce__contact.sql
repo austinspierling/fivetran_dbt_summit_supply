@@ -11,3 +11,4 @@ SELECT id,
        LOYALTY_TIER_C AS loyalty_tier
 FROM {{ source('rma_salesforce', 'CONTACT') }}
 WHERE is_deleted = FALSE
+AND ACTIVITY_INTERESTS_C IS NOT NULL
