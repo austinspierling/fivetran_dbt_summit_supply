@@ -1,32 +1,13 @@
-version: 2
+version: 3
 
 sources:
-  - name: postgres
-    description: "PostgreSQL database containing sales transaction data"
+  - name: rma_salesforce
+    database: PC_FIVETRAN_DB
+    schema: SALESFORCE
     tables:
-      - name: sales_transactions
-        description: "Raw sales transaction data from PostgreSQL"
-        columns:
-          - name: transaction_id
-            description: "Unique identifier for each transaction"
-          - name: customer_id
-            description: "Customer identifier"
-          - name: transaction_date
-            description: "Date of the transaction"
-          - name: amount
-            description: "Transaction amount"
-
-  - name: salesforce
-    description: "Salesforce CRM data"
+      - name: CONTACT
+  - name: rma_postgres
+    database: PC_FIVETRAN_DB
+    schema: POSTGRES_PUBLIC
     tables:
-      - name: contact
-        description: "Contact information from Salesforce"
-        columns:
-          - name: id
-            description: "Unique contact identifier"
-          - name: first_name
-            description: "Contact first name"
-          - name: last_name
-            description: "Contact last name"
-          - name: email
-            description: "Contact email address"
+      - name: SALES_TRANSACTIONS
