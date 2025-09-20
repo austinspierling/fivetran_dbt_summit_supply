@@ -1,8 +1,12 @@
-name: 'fivetran_dbt_summit_supply'
+# This is the name of your project. It should be in snake_case.
+name: 'summit_supply_co'
 version: '1.0.0'
+config-version: 2
 
-profile: 'fivetran_dbt_summit_supply'
+# This is the name of the profile dbt will use. Fivetran injects its own.
+profile: 'summit_supply_co'
 
+# These are the paths where dbt will look for different types of files.
 model-paths: ["models"]
 analysis-paths: ["analyses"]
 test-paths: ["tests"]
@@ -10,13 +14,21 @@ seed-paths: ["seeds"]
 macro-paths: ["macros"]
 snapshot-paths: ["snapshots"]
 
+# Where dbt will compile to. The default is usually fine.
+target-path: "target"
 clean-targets:
   - "target"
   - "dbt_packages"
 
+# This is the most important section for your demo.
+# We are telling dbt how to materialize the models based on which
+# directory they are in.
 models:
-  fivetran_dbt_summit_supply:
+  summit_supply_co:
+    # Models in the "staging" directory
     staging:
       +materialized: view
+
+    # Models in the "marts" directory
     marts:
       +materialized: table
