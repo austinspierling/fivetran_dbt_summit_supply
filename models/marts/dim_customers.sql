@@ -13,7 +13,7 @@ WITH contacts AS (SELECT *
 
 SELECT c.account_id,
        c.first_name,
-       c.last_name
+       c.last_name,
        c.email,
        c.loyalty_tier,
        c.mailing_city,
