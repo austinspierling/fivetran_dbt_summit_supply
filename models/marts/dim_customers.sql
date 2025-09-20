@@ -11,7 +11,7 @@ WITH contacts AS (SELECT *
                                FROM {{ ref('stg_postgres__sales_transactions') }}
                                GROUP BY 1)
 
-SELECT c.account_id,
+SELECT c.id,
        c.first_name,
        c.last_name,
        c.email,
@@ -24,4 +24,4 @@ SELECT c.account_id,
        ct.last_purchase_date
 FROM contacts c
          LEFT JOIN
-     customer_transactions ct ON c.account_id = ct.salesforce_contact_id
+     customer_transactions ct ON c.id = ct.salesforce_contact_id
